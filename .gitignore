@@ -111,7 +111,6 @@ tramp
 CMakeFiles
 CMakeCache.txt
 CTestTestfile.cmake
-/Makefile
 cmake_*.cmake
 install_manifest.txt
 
@@ -146,5 +145,4 @@ tests/test_cibuildwheel/tmp_dockerfiles
 
 # build artifacts
 *.cmake
-Makefile
 *.tmp

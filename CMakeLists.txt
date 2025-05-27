@@ -243,6 +243,7 @@ add_core(gba mgba)
 add_core(pce mednafen_pce_fast)
 add_core(32x picodrive)
 add_core(saturn mednafen_saturn)
+add_core(TIC_80 tic80)
 
 set(CLEAN_CORES)
 

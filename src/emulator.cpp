@@ -338,7 +338,7 @@ void Emulator::reconfigureAddressSpace() {
 // callback for logging from emulator
 // turned off by default to avoid spamming the log, only used for debugging issues within cores
 static void cbLog(enum retro_log_level level, const char *fmt, ...) {
-#if 0
+#if 1
 	char buffer[4096] = {0};
 	static const char * levelName[] = { "DEBUG", "INFO", "WARNING", "ERROR" };
 	va_list va;
@@ -357,6 +357,10 @@ static void cbLog(enum retro_log_level level, const char *fmt, ...) {
 bool Emulator::cbEnvironment(unsigned cmd, void* data) {
 	assert(s_loadedEmulator);
 	switch (cmd) {
+	// Fix for RETRO_LOG_ERROR: "[TIC-80] Failed to set frame time callback"
+	case RETRO_ENVIRONMENT_SET_FRAME_TIME_CALLBACK: {
+      return true;
+  }
 	case RETRO_ENVIRONMENT_SET_PIXEL_FORMAT:
 		switch (*reinterpret_cast<retro_pixel_format*>(data)) {
 		case RETRO_PIXEL_FORMAT_XRGB8888:
