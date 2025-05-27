@@ -14,6 +14,7 @@ from stable_baselines3.common.vec_env import (
     VecFrameStack,
     VecTransposeImage,
 )
+from pathlib import Path
 import retro
 
 
@@ -117,7 +118,8 @@ def main():
     iterations=0
     try:
         while True:
-            model = PPO.load("./models/ppo_model", env=venv, print_system_info=True)
+            if Path('./models/ppo_model.zip').is_file():
+                model = PPO.load("./models/ppo_model", env=venv, print_system_info=True)
             model.tensorboard_log = tensorboard_log_dir
             model.learn(
                 total_timesteps=4_000_000,
