@@ -1,0 +1,3 @@
+[submodule "cores/TIC_80"]
+	path = cores/TIC_80
+	url = https://github.com/retrogames-tha/TIC-80
