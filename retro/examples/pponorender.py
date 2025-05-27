@@ -14,6 +14,7 @@ from stable_baselines3.common.vec_env import (
     VecFrameStack,
     VecTransposeImage,
 )
+
 import retro
 
 
@@ -68,7 +69,7 @@ class StochasticFrameSkip(gym.Wrapper):
 def make_retro(*, game, state=None, max_episode_steps=4500, **kwargs):
     if state is None:
         state = retro.State.DEFAULT
-    env = retro.make(game, state, **kwargs)
+    env = retro.make(game, state, render_mode=None, **kwargs)
     env = StochasticFrameSkip(env, n=4, stickprob=0.25)
     if max_episode_steps is not None:
         env = TimeLimit(env, max_episode_steps=max_episode_steps)
@@ -82,6 +83,7 @@ def wrap_deepmind_retro(env):
     env = WarpFrame(env)
     env = ClipRewardEnv(env)
     return env
+
 
 def main():
     parser = argparse.ArgumentParser()
@@ -97,7 +99,8 @@ def main():
     
     tensorboard_log_dir = "./logs"
 
-    venv = VecTransposeImage(VecFrameStack(SubprocVecEnv([make_env] * 8), n_stack=4))
+    venv = VecTransposeImage(VecFrameStack(SubprocVecEnv([make_env] * 16
+    ), n_stack=4))
     model = PPO(
         policy="CnnPolicy",
         env=venv,
@@ -123,12 +126,14 @@ def main():
                 total_timesteps=4_000_000,
                 log_interval=1,
                 tb_log_name = f"PPO_run_{datetime.now().strftime('%Y%m%d_%H%M%S')}",
+                
             )
             model.save("./models/ppo_model")
             iterations+=1
     finally:
         model.save("./models/ppo_model")
         print(f"iterations: {iterations}")
+        
 
 
 
